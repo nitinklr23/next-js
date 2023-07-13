@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse, } from 'next'
 import connect from "@/utils/db";
 import Post from "@/models/Post";
 
-export const GET = async (request: NextApiRequest,  { params }: {
+export const GET = async (request: NextRequest,  { params }: {
    params: { id: string } 
 }) => {
   try {

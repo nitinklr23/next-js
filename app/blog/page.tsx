@@ -13,7 +13,7 @@ const Blog = () => {
 
   const fetcher = (...args: any) => fetch(...[args] as const).then(res => res.json())
 
-  const { data, error, isLoading } = useSWR('http://localhost:3000/api/posts', fetcher)
+  const { data, error, isLoading } = useSWR('/api/posts', fetcher)
 
   if(isLoading) {
     showLoader();

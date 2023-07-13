@@ -4,7 +4,7 @@ import React from 'react'
 import { notFound } from "next/navigation";
 
 async function getData(id: string) {
-  const res = await fetch(`http://localhost:3000/api/posts/${id}`, {
+  const res = await fetch(`/api/posts/${id}`, {
     cache: 'no-store'
   })
   if (!res.ok) {

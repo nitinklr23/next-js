@@ -30,7 +30,9 @@ const handler = NextAuth({
             );
 
             if (isPasswordCorrect) {
-              return user;
+              const res = JSON.parse(JSON.stringify(user));
+              delete res.password;
+              return res;
             } else {
               throw new Error("Wrong Credentials!");
             }
@@ -46,7 +48,18 @@ const handler = NextAuth({
       clientId: process.env.GOOGLE_ID,
       clientSecret: process.env.GOOGLE_SECRET,
     }),
+    
   ],
+  callbacks: {
+    async jwt({ token, user }) {
+      return { ...token, ...user };
+    },
+    async session({ session, token, user }) {
+      // Send properties to the client, like an access_token from a provider.
+      session.user = token;
+      return session;
+    },
+  },
   pages: {
     error: "/dashboard/login",
   },

@@ -11,6 +11,10 @@ const Dashboard = () => {
 
   const session = useSession() as any;
 
+  const user = session?.data?.user;
+
+  const role = user?.role;
+
   const router = useRouter();
 
   const { showLoader, hideLoader } = useContext(ThemeContext);
@@ -52,8 +56,13 @@ const Dashboard = () => {
   
   const fetcher = (...args: any) => fetch(...[args] as const).then(res => res.json())
 
-  const { data, mutate, error, isLoading } = useSWR(
-    `/api/posts?username=${session?.data?.user.name}`,
+  const { data, mutate, error, isLoading } = useSWR(() => {
+      if(role == 'admin') {
+        return `/api/posts`;
+      } else {
+        return `/api/posts?username=${session?.data?.user.name}`;
+      }
+    },
     fetcher
   );
 

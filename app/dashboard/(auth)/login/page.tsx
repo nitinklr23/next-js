@@ -4,6 +4,7 @@ import styles from "./page.module.css"
 import React, { useState } from 'react'
 import { useRouter } from "next/navigation";
 import { signIn, useSession } from "next-auth/react";
+import { useSearchParams } from 'next/navigation'
 import Link from "next/link";
 
 
@@ -13,11 +14,18 @@ const Login = () => {
 
   const router = useRouter();
 
+  const searchParams = useSearchParams()
+
   if(session.status === 'authenticated') {
     router.push('/dashboard')
   }
   
-  const [error, setError] = useState('');
+  
+  const [error, setError] = useState(searchParams.get('error'));
+
+  const [success, setSuccess] = useState(searchParams.get('success'));
+
+
   const [formData, setFormData ] = useState({
     email: '',
     password: ''
@@ -44,6 +52,8 @@ const Login = () => {
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Login</h1>
+      {error && <div className={styles.error}>{error}</div>}
+      {success && <div className={styles.success}>{success}</div>}
       <form onSubmit={handleSubmit} className={styles.form}>
         <input
           type="text"
@@ -64,7 +74,6 @@ const Login = () => {
           onChange={handleChange}
         />
         <button className={styles.button}>Login</button>
-        {error && "Something went wrong!"}
       </form>
       <button
         onClick={() => {

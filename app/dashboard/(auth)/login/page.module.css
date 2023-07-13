@@ -33,3 +33,11 @@
   color: #eee;
   font-weight: bold;
 }
+
+.error {
+  color: red;
+}
+
+.success {
+  color: #53c28b;
+}
